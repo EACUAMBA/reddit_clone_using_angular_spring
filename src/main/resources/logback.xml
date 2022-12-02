@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FULL_LOG_FILE_BY_DAY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/reddit_clone_using_angular_spring/logs/today.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/reddit_clone_using_angular_spring/logs/log--%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder>
+            <pattern>[%t] %date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%logger{0}] %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org" level="" />
+    <logger name="org.hibernate" level="" />
+    <logger name="org.hibernate.SQL" level="" />
+    <logger name="org.springframework" level="" />
+    <logger name="com.eacuamba.dev" level="" />
+
+    <root level="">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FULL_LOG_FILE_BY_DAY"/>
+    </root>
+</configuration>
