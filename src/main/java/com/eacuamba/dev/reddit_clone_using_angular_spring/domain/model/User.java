@@ -25,7 +25,13 @@ import java.util.Objects;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"})})
+@Table(
+        name = "user",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"username"}),
+                @UniqueConstraint(columnNames = {"email"})
+        }
+)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +58,12 @@ public class User implements UserDetails {
     @ManyToMany
     @JoinTable(
             name = "user_user_group",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id", table = "user")},
-            inverseJoinColumns = {@JoinColumn(name = "user_group_id", referencedColumnName = "id", table = "user_group")}
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id", table = "user")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_group_id", referencedColumnName = "id", table = "user_group")
+            }
     )
     @Builder.Default
     @ToString.Exclude
@@ -86,22 +96,27 @@ public class User implements UserDetails {
     @Builder.Default
     @Transient
     private List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.grantedAuthorityList;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return this.accountNonExpired;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return this.credentialsNonExpired;
     }
+
     @Override
     public boolean isEnabled() {
         return this.enabled;

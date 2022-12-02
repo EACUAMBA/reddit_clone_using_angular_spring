@@ -16,7 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "user_group", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "code"})})
+@Table(
+        name = "user_group",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name"}),
+                @UniqueConstraint(columnNames = {"code"})
+        }
+)
 public class UserGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +35,7 @@ public class UserGroup {
     @JoinTable(
             name = "user_group_permission",
             joinColumns = {@JoinColumn(name = "user_group_id", referencedColumnName = "id", table = "user_group")},
-            inverseJoinColumns = {@JoinColumn(name = "permission_id",referencedColumnName = "id", table = "permission")}
+            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id", table = "permission")}
     )
     @Builder.Default
     @ToString.Exclude

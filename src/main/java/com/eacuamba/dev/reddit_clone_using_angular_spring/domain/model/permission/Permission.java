@@ -17,7 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "code"})})
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name"}),
+                @UniqueConstraint(columnNames = {"code"})
+        }
+)
 public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
