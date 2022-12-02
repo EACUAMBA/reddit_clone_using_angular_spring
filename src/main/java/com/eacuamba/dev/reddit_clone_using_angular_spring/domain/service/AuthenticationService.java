@@ -36,7 +36,7 @@ public class AuthenticationService {
         mailService.sendMail(
                 MailService.NotificationMail.builder()
                         .to(user.getEmail())
-                        .subject("Please activete your account now!")
+                        .subject("Please activate your account now!")
                         .body(
                                 String.format(
                                         """
