@@ -3,15 +3,17 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Objects;
 
-@Data
-@Builder
+@Getter
+@Setter
+@ToString
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -32,10 +34,23 @@ public class User {
     @NotBlank(message = "Email is required!")
     private String email;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
     @Builder.Default
     private Boolean enabled = Boolean.FALSE;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
