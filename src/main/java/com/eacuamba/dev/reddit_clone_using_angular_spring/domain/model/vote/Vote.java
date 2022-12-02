@@ -12,7 +12,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
