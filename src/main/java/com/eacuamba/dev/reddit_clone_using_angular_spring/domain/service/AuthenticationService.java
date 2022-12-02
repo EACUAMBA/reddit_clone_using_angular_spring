@@ -1,6 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.CustomTransactional;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.RollbackTransactional;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.ValidationToken;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.UserRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,7 +23,7 @@ public class AuthenticationService {
     private final ValidationTokenRepository validationTokenRepository;
     private final MailService mailService;
 
-    @CustomTransactional
+    @RollbackTransactional
     public void registerNewUser(User user) {
 
         user = user.toBuilder()
@@ -63,5 +65,21 @@ public class AuthenticationService {
         return validationToken;
     }
 
+
+    public void verifyAccount(String token) {
+        Optional<ValidationToken> validationTokenOptional = this.validationTokenRepository.findByToken(token);
+        ValidationToken validationToken = validationTokenOptional.orElseThrow(() -> new RedditCloneException("The token you passed doesn't exists!"));
+
+        this.fetchUserAndEnable(validationToken);
+    }
+
+    @RollbackTransactional
+    public User fetchUserAndEnable(ValidationToken validationToken) {
+        Optional<User> optionalUser = this.userRepository.findByUsername(validationToken.getUser().getUsername());
+        User user = optionalUser.orElseThrow(() -> new RedditCloneException("User not found with name " + validationToken.getUser().getUsername()));
+        user.setEnabled(Boolean.TRUE);
+        this.userRepository.save(user);
+        return user;
+    }
 
 }
