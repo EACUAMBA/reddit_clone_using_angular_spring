@@ -1,6 +1,5 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.mail;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,8 @@ public class JavaMailSenderConfiguration {
             @Value("${mail.host}")     String mailHost,
             @Value("${mail.port}")     Integer mailPort,
             @Value("${mail.protocol}") String protocol,
-            @Qualifier("mailUsername") String mailUsername,
-            @Qualifier("mailPassword") String mailPassword
+            @Value("${mail.username}") String mailUsername,
+            @Value("${mail.password}") String mailPassword
     ) {
         this.mailHost = mailHost;
         this.mailPort = mailPort;
