@@ -40,7 +40,7 @@ public class AuthenticationService {
                         .body(
                                 String.format(
                                         """
-                                        Thank you for signing up to Spring Reddit,
+                                        Thank you for signing up to Reddit Clone Using Spring Boot v3 and Angular v15,
                                         please click on the below url to activate your account :
                                         http://localhost:8080/api/auth/accountVerification/%s
                                         """,
