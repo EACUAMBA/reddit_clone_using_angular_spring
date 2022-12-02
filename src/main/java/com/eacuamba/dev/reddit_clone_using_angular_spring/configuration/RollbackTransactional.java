@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Reflective
-public @interface CustomTransactional {
+public @interface RollbackTransactional {
 }
