@@ -33,7 +33,8 @@ public class Post {
     private String description;
 
     @Column(name = "vote_count")
-    private Integer voteCount;
+    @Builder.Default
+    private Integer voteCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
