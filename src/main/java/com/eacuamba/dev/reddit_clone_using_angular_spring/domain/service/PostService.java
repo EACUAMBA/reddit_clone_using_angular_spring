@@ -1,5 +1,6 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.RollbackTransactional;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
@@ -29,6 +30,7 @@ public class PostService {
         return this.postRepository.save(post);
     }
 
+    @RollbackTransactional
     public Post update(Post post) {
         Long id = post.getId();
         Optional<Post> optionalPost = this.postRepository.findById(id);
