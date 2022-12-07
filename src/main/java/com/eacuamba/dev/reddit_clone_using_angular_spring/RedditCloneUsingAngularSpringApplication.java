@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 public class RedditCloneUsingAngularSpringApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(RedditCloneUsingAngularSpringApplication.class, args);
 	}
