@@ -5,7 +5,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Subreddit;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.SubredditService;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service.UserService;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
