@@ -14,10 +14,13 @@ public class PostResponse {
     private String name;
     private String url;
     private String description;
-    private Integer voteCount;
     private String subredditName;
     private Long subredditId;
     private String userUsername;
     private Long userId;
+
+    private Integer voteCount;
+    private Integer commentsCount;
+    private String duration;
 
 }

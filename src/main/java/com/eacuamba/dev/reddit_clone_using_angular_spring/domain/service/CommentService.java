@@ -7,7 +7,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Comment;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.CommentRepository;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service.UserService;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.helper.security_helper.SecurityHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

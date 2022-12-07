@@ -1,7 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service.UserService;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class AuthenticationManagerImplementation implements AuthenticationManage
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        User user = (User) this.userService.loadUserByUsername(username);
+        User user = this.userService.loadUserByUsername(username);
 
         if(user == null) {
             String usernameNotFoundMessage = String.format("Utilizador '%s' não foi encontrado!<br>Verifique se digitou correctamente o email ou nome de user", username);
@@ -76,7 +76,7 @@ public class AuthenticationManagerImplementation implements AuthenticationManage
             }else {
                 credentialsExpiredException = String.format("Utilizador '%s' a sua senha esta incorrecta!<br>Dispões de mais %d tentativas, apos isso será obrigado a redefinir a sua senha.", username, leftTries);
             }
-            user = this.userService.update(user);
+            this.userService.update(user);
             log.debug(credentialsExpiredException);
             throw new BadCredentialsException(credentialsExpiredException);
         }

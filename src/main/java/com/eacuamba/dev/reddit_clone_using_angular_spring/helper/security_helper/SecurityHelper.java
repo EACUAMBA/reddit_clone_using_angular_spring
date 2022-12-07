@@ -1,7 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.helper.security_helper;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service.UserService;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

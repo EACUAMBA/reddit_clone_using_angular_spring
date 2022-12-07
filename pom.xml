@@ -22,6 +22,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.kevinsawicki</groupId>
+			<artifactId>timeago</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.0</version>
