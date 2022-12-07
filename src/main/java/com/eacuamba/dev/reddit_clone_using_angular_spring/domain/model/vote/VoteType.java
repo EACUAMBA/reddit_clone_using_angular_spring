@@ -6,8 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum VoteType {
-    UP(1),
-    DOWN(-1);
-
-    private final Integer direction;
+    UP,
+    DOWN
 }
