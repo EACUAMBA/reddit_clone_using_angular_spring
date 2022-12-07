@@ -33,7 +33,10 @@ public class CommentService {
 
         comment = this.commentRepository.save(comment);
         String mailBody = this.mailContentBuilder
-                .build(comment.getPost().getUser().getUsername() + " posted a comment on your post. " + comment.getPost().getUrl());
+                .build(
+                        comment.getPost().getUser().getUsername() + " posted a comment on your post. " + comment.getPost().getUrl(),
+                        "New Comment! Go chek it out!"
+                );
         this.mailService.sendCommentNotificationEmail(mailBody, user);
         return comment;
     }
