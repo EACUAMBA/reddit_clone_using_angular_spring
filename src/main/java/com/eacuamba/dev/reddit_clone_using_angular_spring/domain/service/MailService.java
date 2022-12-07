@@ -2,6 +2,7 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.builder.MailContentBuilder;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
@@ -25,7 +26,7 @@ public class MailService {
             mimeMessageHelper.setFrom("reddit_clone_using_angular_spring@email.com");
             mimeMessageHelper.setTo(notificationMail.getTo());
             mimeMessageHelper.setSubject(notificationMail.getSubject());
-            mimeMessageHelper.setText(mailContentBuilder.build(notificationMail.getBody()));
+            mimeMessageHelper.setText(mailContentBuilder.build(notificationMail.getBody(), "Verification Token!"));
         };
 
         try{
@@ -34,6 +35,16 @@ public class MailService {
         }catch (MailException mailException){
             throw new RedditCloneException("Exception occurred trying to send email. Description: " + mailException.getMessage());
         }
+    }
+
+    @Async
+    public void sendCommentNotificationEmail(String message, User user) {
+        NotificationMail notificationMail = NotificationMail.builder()
+                .subject(user.getUsername() + " commented on your post!")
+                .body(message)
+                .to(user.getEmail())
+                .build();
+        this.sendMail(notificationMail);
     }
 
 
