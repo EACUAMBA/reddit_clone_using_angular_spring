@@ -1,20 +1,20 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -25,16 +25,13 @@ public class Subreddit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Name of a subreddit community cannot be empty!")
     private String name;
-
-    @NotBlank(message = "Description is required!")
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subreddit")
     @ToString.Exclude
-    private List<Post> postList;
+    @Builder.Default
+    private List<Post> postList = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at")

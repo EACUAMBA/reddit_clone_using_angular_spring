@@ -1,6 +1,5 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.module.Module;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;

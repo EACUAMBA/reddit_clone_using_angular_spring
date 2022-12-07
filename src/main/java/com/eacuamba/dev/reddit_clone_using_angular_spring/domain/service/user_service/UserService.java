@@ -1,10 +1,10 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service;
 
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.user_permission_user_group.UserUserGroupPermission;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.PermissionRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.UserRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.UserUserGroupPermissionRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
@@ -47,10 +49,10 @@ public class UserService implements UserDetailsService {
                 codes.add(userGroup.getCode());
 
             Permission permission;
-            if(nonNull(permission = userUserGroupPermission.getPermission())) {
-                    codes.add(permission.getCode());
-                    if (nonNull(permission.getModule()))
-                        codes.add(permission.getModule().getCode());
+            if (nonNull(permission = userUserGroupPermission.getPermission())) {
+                codes.add(permission.getCode());
+                if (nonNull(permission.getModule()))
+                    codes.add(permission.getModule().getCode());
             }
         }
         return new ArrayList<>(codes);
@@ -70,5 +72,15 @@ public class UserService implements UserDetailsService {
 
     public User save(User user) {
         return this.userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        Optional<User> optionalUser;
+        if (isNull(id))
+            optionalUser = Optional.empty();
+        else
+            optionalUser = this.userRepository.findById(id);
+        return optionalUser.orElseThrow(() -> new RedditCloneException(String.format("User with this id '%d' was not found!", id)));
     }
 }

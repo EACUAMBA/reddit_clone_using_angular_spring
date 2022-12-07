@@ -1,6 +1,6 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.api.controller;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.RegisterRequest;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.request.RegisterRequest;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;

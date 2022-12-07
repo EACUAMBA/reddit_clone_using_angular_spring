@@ -1,7 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.filter;
 
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.UsernameAndPasswordAuthenticationRequest;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.request.UsernameAndPasswordAuthenticationRequest;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.jwt.JwtConfiguration;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.helper.DateTimeHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
