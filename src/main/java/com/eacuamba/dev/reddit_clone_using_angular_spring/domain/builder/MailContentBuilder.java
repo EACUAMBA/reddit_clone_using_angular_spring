@@ -10,9 +10,10 @@ import org.thymeleaf.context.Context;
 public class MailContentBuilder {
     private final TemplateEngine templateEngine;
 
-    public String build(String message){
+    public String build(String message, String title){
         Context context = new Context();
         context.setVariable("message", message);
+        context.setVariable("title", title);
         return this.templateEngine.process("mail/verification-token-mail-template.html", context);
     }
 }
