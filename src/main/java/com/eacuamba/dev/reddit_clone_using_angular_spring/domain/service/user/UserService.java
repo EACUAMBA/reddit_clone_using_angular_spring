@@ -1,4 +1,4 @@
-package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user_service;
+package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
