@@ -3,6 +3,9 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.securit
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.jwt.JwtConfiguration;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.jwt.JwtSecretKey;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.token.Token;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.TokenRepository;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.token.TokenService;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.helper.security_helper.SecurityHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -27,10 +30,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Configuration
@@ -41,25 +46,32 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
     private final JwtConfiguration jwtConfiguration;
     private final SecurityHelper securityHelper;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
 
     @SuppressWarnings(value = {"unchecked"})
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(this.jwtConfiguration.getAuthorizationHeader());
+        String tokenValue = null;
+        Token token = null;
 
         if (
-                StringUtils.isNotBlank(authorizationHeader) ||
-                        StringUtils.startsWith(authorizationHeader, this.jwtConfiguration.getTokenPrefix())
+                StringUtils.isNotBlank(authorizationHeader) || StringUtils.startsWith(authorizationHeader, this.jwtConfiguration.getTokenPrefix())
         ) {
+            tokenValue = authorizationHeader.replace(this.jwtConfiguration.getTokenPrefix(), "").trim();
+            Optional<Token> optionalToken = this.tokenRepository.findByValue(tokenValue);
+            token = optionalToken.orElse(null);
+        }
 
-
-            String token = authorizationHeader.replace(this.jwtConfiguration.getTokenPrefix(), "").trim();
-
+        if (
+                nonNull(token) && Boolean.TRUE.equals(token.getValid())
+        ) {
             try {
                 Jws<Claims> claimsJws = Jwts.parserBuilder()
                         .setSigningKey(this.jwtSecretKey.secretKey())
                         .build()
-                        .parseClaimsJws(token);
+                        .parseClaimsJws(tokenValue);
 
                 Claims body = claimsJws.getBody();
 
@@ -71,7 +83,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
                                 !userDetails.isAccountNonExpired() ||
                                 !userDetails.isAccountNonLocked() ||
                                 !userDetails.isCredentialsNonExpired()
-                ){
+                ) {
                     filterChain.doFilter(request, response);
                     return;
                 }
@@ -85,19 +97,21 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
                 Set<SimpleGrantedAuthority> serverAuthorities = userDetails.getAuthorities().stream().map((grantedAuthority -> new SimpleGrantedAuthority(grantedAuthority.getAuthority()))).collect(Collectors.toSet());
                 boolean equalCollection = CollectionUtils.isEqualCollection(authorities, serverAuthorities);
-                if(!equalCollection){
+                if (!equalCollection) {
+                    token.setValid(Boolean.FALSE);
+                    this.tokenService.save(token);
                     log.info("The JWT authorities are different from the authorities at the server.");
                 }
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         username,
-                        token,
+                        tokenValue,
                         serverAuthorities
                 );
 
                 this.securityHelper.setAuthentication(usernamePasswordAuthenticationToken);
             } catch (JwtException jwtException) {
-                throw new RedditCloneException("Exception occurred validating token: " + token);
+                throw new RedditCloneException("Exception occurred validating token: " + tokenValue);
             }
         }
         filterChain.doFilter(request, response);
