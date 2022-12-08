@@ -5,6 +5,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_obje
 import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.requests_responses.comment.CommentResponse;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Comment;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CommentResource {
     private final CommentMapper commentMapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<Void> save(@Valid @RequestBody CommentRequest commentRequest) {
         Comment comment = commentMapper.mapTo(commentRequest);
         comment = this.commentService.save(comment);
         this.commentMapper.mapToCommentResponse(comment);
