@@ -34,7 +34,6 @@ public abstract class PostResponseMapper {
     @Mapping(target = "userId", expression = "java(getUserId(post.getUser()))")
     @Mapping(target = "commentsCount", expression = "java(countComments(post))")
     @Mapping(target = "duration", expression = "java(duration(post))")
-    @Mapping(target = "voteCount", constant = "0")
     public abstract PostResponse mapToPostResponse(Post post);
 
     public String getUserUsername(User user){
