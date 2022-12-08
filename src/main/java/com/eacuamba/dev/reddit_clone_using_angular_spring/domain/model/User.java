@@ -1,5 +1,6 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model;
 
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.token.Token;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.user_permission_user_group.UserUserGroupPermission;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -47,6 +48,11 @@ public class User implements UserDetails {
     @NotBlank(message = "Email is required!")
     private String email;
 
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    @ToString.Exclude
+    private transient List<Token> tokenList = new ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
@@ -67,12 +73,12 @@ public class User implements UserDetails {
     )
     @Builder.Default
     @ToString.Exclude
-    private List<UserGroup> userGroupList = new ArrayList<>();
+    private transient List<UserGroup> userGroupList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
     @ToString.Exclude
-    private List<UserUserGroupPermission> userUserGroupPermissionList = new ArrayList<>();
+    private transient List<UserUserGroupPermission> userUserGroupPermissionList = new ArrayList<>();
 
     @Builder.Default
     private Boolean enabled = Boolean.FALSE;
