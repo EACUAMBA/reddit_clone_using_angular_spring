@@ -1,7 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.RollbackTransactional;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.ValidationToken;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.UserRepository;

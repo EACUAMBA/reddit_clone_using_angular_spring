@@ -1,7 +1,8 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.RollbackTransactional;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.EntityNotFoundException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.ExceptionBuilder;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Subreddit;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.SubredditRepository;
@@ -23,6 +24,8 @@ public class SubredditService {
     private final SubredditRepository subredditRepository;
     private final BeanHelper beanHelper;
     private final SecurityHelper securityHelper;
+    private final ExceptionBuilder exceptionBuilder;
+    private static final String SUBREDDIT_NAME = "Subreddit";
 
     @Transactional(readOnly = true)
     public Subreddit findById(Long id) {
@@ -32,8 +35,8 @@ public class SubredditService {
         else
             optionalSubreddit = this.subredditRepository.findById(id);
 
-        RedditCloneException subredditNotFountERxception = new RedditCloneException(String.format("Subreddit with id equal to %s was not found.", id));
-        return optionalSubreddit.orElseThrow(() -> subredditNotFountERxception);
+        EntityNotFoundException entityNotFoundException = this.exceptionBuilder.buildEntityNotFoundById(SUBREDDIT_NAME, id);
+        return optionalSubreddit.orElseThrow(() -> entityNotFoundException);
     }
 
     @RollbackTransactional
@@ -47,8 +50,8 @@ public class SubredditService {
     public Subreddit update(Subreddit subreddit) {
         Long id = subreddit.getId();
         Optional<Subreddit> optionalSubreddit = this.subredditRepository.findById(id);
-        RedditCloneException subredditNotFoundException = new RedditCloneException(String.format("Subreddit with id equal to %s was not found.", id));
-        Subreddit oldSubreddit = optionalSubreddit.orElseThrow(() -> subredditNotFoundException);
+        EntityNotFoundException entityNotFoundException = this.exceptionBuilder.buildEntityNotFoundById(SUBREDDIT_NAME, id);
+        Subreddit oldSubreddit = optionalSubreddit.orElseThrow(() -> entityNotFoundException);
         this.beanHelper.copyNonNullProperties(subreddit, oldSubreddit);
         return this.subredditRepository.save(oldSubreddit);
     }
@@ -56,8 +59,8 @@ public class SubredditService {
     @RollbackTransactional
     public void delete(Long id) {
         Optional<Subreddit> optionalSubreddit = this.subredditRepository.findById(id);
-        RedditCloneException subredditNotFountERxception = new RedditCloneException(String.format("Subreddit with id equal to %s was not found.", id));
-        Subreddit subreddit = optionalSubreddit.orElseThrow(() -> subredditNotFountERxception);
+        EntityNotFoundException entityNotFoundException = this.exceptionBuilder.buildEntityNotFoundById(SUBREDDIT_NAME, id);
+        Subreddit subreddit = optionalSubreddit.orElseThrow(() -> entityNotFoundException);
         this.subredditRepository.delete(subreddit);
     }
 }
