@@ -23,6 +23,10 @@ public class DateTimeHelper {
         return LocalDate.now();
     }
 
+    public LocalDateTime getCurrentLocalDateTime(){
+        return LocalDateTime.now();
+    }
+
     public String formatDateTime(LocalDateTime localDateTime) {
         if (localDateTime == null)
             return "";
