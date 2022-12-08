@@ -1,6 +1,6 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.ExceptionBuilder;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
@@ -25,6 +25,7 @@ import static java.util.Objects.nonNull;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserUserGroupPermissionRepository userUserGroupPermissionRepository;
+    private final ExceptionBuilder exceptionBuilder;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -81,6 +82,6 @@ public class UserService implements UserDetailsService {
             optionalUser = Optional.empty();
         else
             optionalUser = this.userRepository.findById(id);
-        return optionalUser.orElseThrow(() -> new RedditCloneException(String.format("User with this id '%d' was not found!", id)));
+        return optionalUser.orElseThrow(() -> this.exceptionBuilder.buildEntityNotFoundById("User", id));
     }
 }
