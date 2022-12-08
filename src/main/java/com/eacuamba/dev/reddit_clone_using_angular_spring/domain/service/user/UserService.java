@@ -1,6 +1,6 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
@@ -44,12 +44,12 @@ public class UserService implements UserDetailsService {
         Set<String> codes = new HashSet<>();
         for (UserUserGroupPermission userUserGroupPermission : userUserGroupPermissionCollection) {
 
-            UserGroup userGroup;
-            if (nonNull(userGroup = userUserGroupPermission.getUserGroup()))
+            UserGroup userGroup = userUserGroupPermission.getUserGroup();
+            if (nonNull(userGroup ))
                 codes.add(userGroup.getCode());
 
-            Permission permission;
-            if (nonNull(permission = userUserGroupPermission.getPermission())) {
+            Permission permission = userUserGroupPermission.getPermission();
+            if (nonNull(permission )) {
                 codes.add(permission.getCode());
                 if (nonNull(permission.getModule()))
                     codes.add(permission.getModule().getCode());

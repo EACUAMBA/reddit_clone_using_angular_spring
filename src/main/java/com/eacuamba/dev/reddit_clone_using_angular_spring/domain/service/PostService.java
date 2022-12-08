@@ -1,7 +1,8 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.RollbackTransactional;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.EntityNotFoundException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.ExceptionBuilder;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.PostRepository;
@@ -18,15 +19,17 @@ public class PostService {
     private final PostRepository postRepository;
     private final SecurityHelper securityHelper;
     private final BeanHelper beanHelper;
+    private final ExceptionBuilder exceptionBuilder;
 
     public Post findById(Long id) {
         Optional<Post> optionalPost = this.postRepository.findById(id);
-        return optionalPost.orElseThrow(() -> new RedditCloneException("Post with id = %s not found."));
+        return optionalPost.orElseThrow(() -> this.exceptionBuilder.buildEntityNotFoundById("Post", id));
     }
 
     public Post save(Post post) {
         Optional<User> optionalUser = this.securityHelper.getAutheticatedUser();
-        optionalUser.ifPresent(post::setUser);
+        User user = optionalUser.orElseThrow(this.exceptionBuilder::buildNoAuthenticatedUser);
+        post.setUser(user);
         return this.postRepository.save(post);
     }
 
@@ -34,16 +37,16 @@ public class PostService {
     public Post update(Post post) {
         Long id = post.getId();
         Optional<Post> optionalPost = this.postRepository.findById(id);
-        RedditCloneException subredditNotFoundException = new RedditCloneException(String.format("Post with id equal to %s was not found.", id));
-        Post oldPost = optionalPost.orElseThrow(() -> subredditNotFoundException);
+        EntityNotFoundException entityNotFoundException = this.exceptionBuilder.buildEntityNotFoundById("Post", id);
+        Post oldPost = optionalPost.orElseThrow(() -> entityNotFoundException);
         this.beanHelper.copyNonNullProperties(post, oldPost);
         return this.postRepository.save(oldPost);
     }
 
     public void delete(Long id) {
         Optional<Post> optionalPost = this.postRepository.findById(id);
-        RedditCloneException subredditNotFountERxception = new RedditCloneException(String.format("Post with id equal to %s was not found.", id));
-        Post post = optionalPost.orElseThrow(() -> subredditNotFountERxception);
+        EntityNotFoundException entityNotFoundException = this.exceptionBuilder.buildEntityNotFoundById("Post", id);
+        Post post = optionalPost.orElseThrow(() -> entityNotFoundException);
         this.postRepository.delete(post);
     }
 }

@@ -28,17 +28,4 @@ public class PostRequestMapper {
 
         return post;
     }
-
-    public PostRequest mapToPostRequest(Post post){
-        return new PostRequest();
-    }
-
-//    default User getUser(Long userId, @Context UserRepository userRepository){
-//        Optional<User> optionalUser = userRepository.findById(userId);
-//        return optionalUser.orElseThrow(() -> new UsernameNotFoundException(String.format("User with id = %s was not found.", userId)));
-//    }
-//    default Subreddit getSubreddit(Long subredditId, @Context SubredditRepository subredditRepository){
-//        Optional<Subreddit> optionalSubreddit = subredditRepository.findById(subredditId);
-//        return optionalSubreddit.orElseThrow(() -> new RedditCloneException(String.format("Subreddit with id = %s was not found.", subredditId)));
-//    }
 }

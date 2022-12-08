@@ -1,8 +1,8 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.filter;
 
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.jwt.JwtConfiguration;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security.jwt.JwtSecretKey;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.helper.security_helper.SecurityHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -13,10 +13,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.lang.NonNullApi;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 @Order(2)
@@ -81,10 +83,16 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
                         .map(v -> new SimpleGrantedAuthority(v.get("authority")))
                         .collect(Collectors.toSet());
 
+                Set<SimpleGrantedAuthority> serverAuthorities = userDetails.getAuthorities().stream().map((grantedAuthority -> new SimpleGrantedAuthority(grantedAuthority.getAuthority()))).collect(Collectors.toSet());
+                boolean equalCollection = CollectionUtils.isEqualCollection(authorities, serverAuthorities);
+                if(!equalCollection){
+                    log.info("The JWT authorities are different from the authorities at the server.");
+                }
+
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         username,
                         token,
-                        userDetails.getAuthorities()
+                        serverAuthorities
                 );
 
                 this.securityHelper.setAuthentication(usernamePasswordAuthenticationToken);

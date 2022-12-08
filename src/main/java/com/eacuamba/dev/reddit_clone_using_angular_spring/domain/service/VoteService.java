@@ -1,6 +1,7 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service;
 
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.exception.RedditCloneException;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.ExceptionBuilder;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.exceptions.RedditCloneException;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.vote.Vote;
@@ -20,10 +21,11 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final PostService postService;
     private final SecurityHelper securityHelper;
+    private final ExceptionBuilder exceptionBuilder;
 
     public void vote(Vote vote) {
         Optional<User> optionalUser = this.securityHelper.getAutheticatedUser();
-        User authenticatedUser = optionalUser.orElseThrow(() -> new RedditCloneException("User not fount"));
+        User authenticatedUser = optionalUser.orElseThrow(this.exceptionBuilder::buildNoAuthenticatedUser);
         vote.setUser(authenticatedUser);
 
         Post votePost = vote.getPost();
