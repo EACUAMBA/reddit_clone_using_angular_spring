@@ -51,7 +51,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @Builder.Default
     @ToString.Exclude
-    private transient List<Token> tokenList = new ArrayList<>();
+    private List<Token> tokenList = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -73,12 +73,12 @@ public class User implements UserDetails {
     )
     @Builder.Default
     @ToString.Exclude
-    private transient List<UserGroup> userGroupList = new ArrayList<>();
+    private List<UserGroup> userGroupList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
     @ToString.Exclude
-    private transient List<UserUserGroupPermission> userUserGroupPermissionList = new ArrayList<>();
+    private List<UserUserGroupPermission> userUserGroupPermissionList = new ArrayList<>();
 
     @Builder.Default
     private Boolean enabled = Boolean.FALSE;
