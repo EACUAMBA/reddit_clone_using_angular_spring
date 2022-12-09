@@ -12,6 +12,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.Us
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @PostConstruct
     public void init() {
+        this.setFilterProcessesUrl("/api/auth/login");
         this.setAuthenticationManager(authenticationManager);
     }
 
@@ -60,7 +62,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws ServletException, IOException {
         String username = (String) authResult.getPrincipal();
         User user = this.userService.loadUserByUsername(username);
         String jwt = this.jwtService.generateJwt(user);
@@ -75,7 +77,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 )
         );
         response.addHeader(
-                "Refresh Token",
+                "Refresh-token",
                 token.getValue()
         );
         response.setStatus(HttpServletResponse.SC_OK);
