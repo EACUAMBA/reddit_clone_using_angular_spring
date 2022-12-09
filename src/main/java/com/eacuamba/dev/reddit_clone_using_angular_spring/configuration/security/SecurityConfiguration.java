@@ -7,16 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
-    private final UserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
-
     private final JwtUsernameAndPasswordAuthenticationFilter jwtUsernameAndPasswordAuthenticationFilter;
     private final JwtTokenValidationFilter jwtTokenValidationFilter;
 
@@ -27,16 +22,14 @@ public class SecurityConfiguration {
                 .and()
                 .addFilter(this.jwtUsernameAndPasswordAuthenticationFilter)
                 .addFilterAfter(this.jwtTokenValidationFilter, JwtUsernameAndPasswordAuthenticationFilter.class)
-                //Here I authorize all requests to api/auth/**;
+
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**")
-                .permitAll()
-                //Enabling access to static files
-                .requestMatchers("/", "index", "css/*", "js/*")
-                .permitAll()
-                //Here I'm blocking all rest of request to only authenticated people.
-                .anyRequest()
-                .authenticated();
+                .requestMatchers("/api/**")
+                .authenticated()
+
+                .requestMatchers("/api/auth/**", "/**")
+                .permitAll();
+
 
         return httpSecurity.build();
     }
