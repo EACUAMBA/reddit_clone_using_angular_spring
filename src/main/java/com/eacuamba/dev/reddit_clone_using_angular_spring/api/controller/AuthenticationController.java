@@ -18,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest){
 
         User user = User.builder()
                 .email(registerRequest.getEmail())
