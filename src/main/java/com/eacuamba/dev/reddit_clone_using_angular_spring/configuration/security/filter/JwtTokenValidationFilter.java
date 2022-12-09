@@ -6,6 +6,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.token.Token;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.TokenRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.token.TokenService;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.helper.security_helper.SecurityHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -24,7 +25,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
     private final JwtSecretKey jwtSecretKey;
     private final JwtConfiguration jwtConfiguration;
     private final SecurityHelper securityHelper;
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
     private final TokenRepository tokenRepository;
     private final TokenService tokenService;
 
@@ -76,7 +76,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
                 Claims body = claimsJws.getBody();
 
                 String username = body.getSubject();
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = this.userService.loadUserByUsername(username);
                 if (
                         isNull(userDetails) ||
                                 !userDetails.isEnabled() ||
