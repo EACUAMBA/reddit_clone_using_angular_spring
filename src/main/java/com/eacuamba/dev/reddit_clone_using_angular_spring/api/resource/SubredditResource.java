@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +30,7 @@ public class SubredditResource {
 
         List<SubredditResponse> subredditResponseList = subredditList.stream()
                 .map(this.subredditResponseMapper::mapToSubredditResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ResponseEntity<>(subredditResponseList, HttpStatus.OK);
     }

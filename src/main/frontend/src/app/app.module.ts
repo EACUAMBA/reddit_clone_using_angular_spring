@@ -11,9 +11,13 @@ import {LoginComponent} from './components/login/login.component';
 import {NgxWebstorageModule} from "ngx-webstorage";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
-import { HomeComponent } from './components/home/home.component';
+import {HomeComponent} from './components/home/home.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {httpInterceptorProviders} from "./interceptors";
+import {PostTileComponent} from './components/post-tile/post-tile.component';
+import {VoteButtonComponent} from './components/vote-button/vote-button.component';
+import {SideBarComponent} from './components/side-bar/side-bar.component';
+import {SubredditSideBarComponent} from './components/subreddit-side-bar/subreddit-side-bar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import {httpInterceptorProviders} from "./interceptors";
     HeaderComponent,
     SignUpComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    PostTileComponent,
+    VoteButtonComponent,
+    SideBarComponent,
+    SubredditSideBarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,32 @@
+<div class="row post" *ngFor="let post of _posts">
+  <div class="col-md-1">
+    <app-vote-button [post]="post"></app-vote-button>
+  </div>
+  <!-- Section to Display Post Information-->
+  <div class="col-md-11 p-2">
+            <span class="align-items-center d-flex gap-2">
+              <span class="subreddit-text"><a class="posturl" routerLink="">{{post.subredditName}}</a></span>
+              <fa-icon [icon]="faDotCircle"></fa-icon>
+              <span>Posted by <a class="username" routerLink="/user/{{post.userId}}">{{post.userUsername}}</a></span>
+              <fa-icon [icon]="faDotCircle"></fa-icon>
+              <span>{{post.duration}}</span>
+            </span>
+    <hr/>
+    <div class="post-title">
+      <a class="text-black text-xl-center" href="{{post.url}}">{{post.name}}</a>
+    </div>
+    <div>
+      <p class="text-muted">{{post.description}}</p>
+    </div>
+    <hr/>
+    <span class="d-flex gap-3 align-items-center justify-content-between">
+              <a class="d-flex gap-1 align-items-center link-secondary text-decoration-none" role="button">
+                <fa-icon [icon]="faComments"></fa-icon>
+                Comments ({{post.commentsCount}})
+              </a>
+              <button class="btn btn-primary" (click)="goToPost(post.id)">
+                Read Post
+              </button>
+            </span>
+  </div>
+</div>

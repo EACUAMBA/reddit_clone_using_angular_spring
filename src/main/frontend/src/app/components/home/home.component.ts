@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {PostResponsePayload} from "../../models/post/post-response.payload";
-import {PostService} from "../../services/post/post.service";
 import {faArrowDown, faArrowUp, faComments} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -16,26 +15,9 @@ export class HomeComponent implements OnInit{
   faArrowDown: any = faArrowDown;
   faComments: any = faComments;
 
-  constructor(private postService: PostService) {
 
-  }
 
-  goToPost(id: bigint) {
-
-  }
-
-  upvotePost() {
-
-  }
-
-  downvotePost() {
-
-  }
 
   ngOnInit(): void {
-    console.log("Testing ngOnInit")
-    this.postService.getAllPost().subscribe({
-      next: (data)=> this._posts = data
-    })
   }
 }
