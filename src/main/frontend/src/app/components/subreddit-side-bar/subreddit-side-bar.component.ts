@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SubredditService} from "../../services/subreddit/subreddit.service";
-import {Subreddit} from "../../services/subreddit/subreddit";
+import {SubredditResponse} from "../../services/subreddit/subredditResponse";
 
 @Component({
   selector: 'app-subreddit-side-bar',
@@ -9,7 +9,7 @@ import {Subreddit} from "../../services/subreddit/subreddit";
 })
 export class SubredditSideBarComponent implements OnInit {
 
-  subreddits: Array<Subreddit> = [];
+  subreddits: Array<SubredditResponse> = [];
   displayViewAll: boolean = false;
 
   constructor(private subredditService: SubredditService) {

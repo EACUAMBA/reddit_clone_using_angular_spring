@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <hr/>
+    <div class="create-post-container col-md-9">
+      <form (ngSubmit)="createPost()" [formGroup]="createPostForm" class="post-form">
+        <div class="d-flex gap-3 flex-column">
+          <div class="create-post-heading">Create Post</div>
+          <input [formControlName]="'name'" class="form-control" placeholder="Title" style="margin-top: 5px"
+                 type="text">
+
+          <input [formControlName]="'url'" class="form-control" placeholder="URL" style="margin-top: 5px" type="text">
+
+          <select [formControlName]="'subredditId'" class="form-control">
+            <option disabled selected value="null">Select Subreddit</option>
+            <option *ngFor="let subreddit of subreddits" value="{{subreddit.id}}">{{subreddit.name}}</option>
+          </select>
+
+          <editor [formControlName]="'description'" [init]="{
+                      height: 500,
+                      menubar: false,
+                      plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                      ],
+                      toolbar:
+                        'undo redo | formatselect | bold italic backcolor |  ' +
+                         'alignleft aligncenter alignright alignjustify | ' +
+                         'bullist numlist outdent indent | removeformat | help'
+                    }"></editor>
+          <span>
+            <div class="d-flex gap-3">
+              <button (click)="discardPost()" class="btn btn-warning">Discard</button>
+              <button [disabled]="createPostForm.invalid"
+                      class="btn btn-primary" type="submite">Post</button>
+            </div>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@
       <a class="text-black text-xl-center" href="{{post.url}}">{{post.name}}</a>
     </div>
     <div>
-      <p class="text-muted">{{post.description}}</p>
+      <p [innerHTML]="post.description" class="text-muted"></p>
     </div>
     <hr/>
     <span class="d-flex gap-3 align-items-center justify-content-between">
