@@ -21,24 +21,24 @@ export class AuthenticationService {
     return this.httpClient.post(environment.apiBaseUrl.concat('auth/signup'), signupRequestPayload, {responseType: 'text'})
   }
 
-  login = (loginRequestPayload: LoginRequestPayload) => {
-
-    this.httpClient.post<any>(
+  login = (loginRequestPayload: LoginRequestPayload) : Observable<any> => {
+    return this.httpClient.post<any>(
       environment.apiBaseUrl.concat('auth/login'),
       loginRequestPayload,
       {observe: 'response', headers: new HttpHeaders()}
-    )
-      .subscribe({
-        next: (response) => {
-          this.localStorageService.store("authorization", response.headers.get("authorization"));
-          this.localStorageService.store("refresh-token", response.headers.get("refresh-token"));
-        },
-        error: (error) => {
-          throw error;
-        },
-        complete: () => {
+    );
+  }
 
-        }
-      });
+  getJWT(): string {
+    return this.localStorageService.retrieve('authorization')
+  }
+
+  refreshJWT() : Observable<any>{
+    return this.httpClient.post(environment.apiBaseUrl.concat('auth/refresh-token'), {refreshToken: this.localStorageService.retrieve('refresh-token')})
+  }
+
+  updateJWT(token: string) {
+    this.localStorageService.store('authorization', '');
+    this.localStorageService.store('authorization', token);
   }
 }
