@@ -1,18 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SignupRequestPayload} from "../../models/signup-request.payload";
 import {AuthenticationService} from "../../services/authentication/authentication.service";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
   signupRequestPayload: SignupRequestPayload;
   signupForm : FormGroup;
 
-  constructor(private authenticationService: AuthenticationService ) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private toastr: ToastrService ) {
     this.signupRequestPayload = {
       username: "",
       password: "",
@@ -26,13 +28,17 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-
-  }
-
   signup(){
     this.signupRequestPayload = this.signupForm.getRawValue();
     this.authenticationService.signup(this.signupRequestPayload)
-      .subscribe(data => console.log(data))
+      .subscribe({
+        next: () =>
+        {
+          this.router.navigate(['/login'], { queryParams: {registered: true}}).then()
+        },
+        error: (error) => {
+          this.toastr.error("An error occurred during sign up." + error)
+        }
+      })
   }
 }
