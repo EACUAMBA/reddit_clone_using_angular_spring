@@ -3,7 +3,6 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_obj
 import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_object.request.post.PostRequest;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Subreddit;
-import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.SubredditService;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,6 @@ public class PostRequestMapper {
 
     public Post mapToPost(PostRequest postRequest){
         Post post = this.modelMapper.map(postRequest, Post.class);
-
-        User user = this.userService.findById(postRequest.getUserId());
-        post.setUser(user);
 
         Subreddit subreddit = subredditService.findById(postRequest.getSubredditId());
         post.setSubreddit(subreddit);

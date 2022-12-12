@@ -15,6 +15,5 @@ public class PostRequest {
     private String name;
     private String url;
     private String description;
-    private Long userId;
     private Long subredditId;
 }
