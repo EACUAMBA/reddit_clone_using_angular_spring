@@ -3,7 +3,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header text-center" ><h4>Login</h4></div>
+        <div class="card-header text-center"><h4>Login</h4></div>
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="login()" class="d-flex flex-column gap-3">
             <div class="form-group row">
@@ -37,10 +37,13 @@
                                 Login
                             </button>
                             <span>New to Reddit Clone? <a
-                              routerLink="/signup" class="link-primary">SIGN UP</a></span>
+                              routerLink="/sign-up" class="link-primary">SIGN UP</a></span>
                         </span>
-              <div class="login-failed" *ngIf='this.isError'>
-                <p class="login-failed-text">Login Failed. Please check your credentials and try again.</p>
+            </div>
+
+            <div class="row" *ngIf='this.isError'>
+              <div class="col">
+                <p class="text-danger text-center">Login Failed. Please check your credentials and try again.</p>
               </div>
             </div>
           </form>
