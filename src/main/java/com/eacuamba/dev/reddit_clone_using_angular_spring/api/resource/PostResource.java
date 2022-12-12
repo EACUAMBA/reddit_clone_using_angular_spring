@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,7 +29,7 @@ public class PostResource {
         List<Post> posts = this.postRepository.findAll();
         List<PostResponse> postResponses = posts.stream()
                 .map(this.postResponseMapper::mapToPostResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ResponseEntity<>(postResponses, HttpStatus.OK);
     }
