@@ -11,13 +11,13 @@ import java.util.Objects;
 public class ExceptionBuilder {
     private final I18NMessageHelper i18NMessageHelper;
 
-    public <T> EntityNotFoundException buildEntityNotFoundBy(String property, String entity, T id){
+    public <T> EntityNotFoundException buildEntityNotFoundBy(String entity, String property, T value) {
         String message = this.i18NMessageHelper
                 .getMessage(
-                        "x_with_y_z_was_not_found",
+                        "entity_x_with_y_with_value_z_was_not_found",
                         property,
                         entity,
-                        Objects.toString(id)
+                        Objects.toString(value)
                 );
 
         return new EntityNotFoundException(message);
