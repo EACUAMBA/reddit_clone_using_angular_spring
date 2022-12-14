@@ -27,6 +27,7 @@ public class UserService implements UserDetailsService {
     private final UserUserGroupPermissionRepository userUserGroupPermissionRepository;
     private final ExceptionBuilder exceptionBuilder;
 
+    @Transactional(readOnly = true)
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = this.userRepository.findByUsername(username);
@@ -83,5 +84,15 @@ public class UserService implements UserDetailsService {
         else
             optionalUser = this.userRepository.findById(id);
         return optionalUser.orElseThrow(() -> this.exceptionBuilder.buildEntityNotFoundById("User", id));
+    }
+
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        Optional<User> optionalUser;
+        if (isNull(username))
+            optionalUser = Optional.empty();
+        else
+            optionalUser = this.userRepository.findByUsername(username);
+        return optionalUser.orElseThrow(() -> this.exceptionBuilder.buildEntityNotFoundBy("username", "User", username));
     }
 }

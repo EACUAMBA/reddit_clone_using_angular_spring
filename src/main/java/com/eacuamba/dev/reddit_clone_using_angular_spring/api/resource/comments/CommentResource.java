@@ -38,9 +38,9 @@ public class CommentResource {
         return new ResponseEntity<>(commentResponseList, HttpStatus.OK);
     }
 
-    @GetMapping(path = "by-user-id/{userId}")
-    public ResponseEntity<List<CommentResponse>> findAllByUserId(@PathVariable Long userId) {
-        List<Comment> commentList = this.commentService.findAllByUserId(userId);
+    @GetMapping(path = "by-user-username/{userUsername}")
+    public ResponseEntity<List<CommentResponse>> findAllByUserId(@PathVariable String userUsername) {
+        List<Comment> commentList = this.commentService.findAllByUserUsername(userUsername);
         List<CommentResponse> commentResponseList = commentList.stream()
                 .map(this.commentMapper::mapToCommentResponse)
                 .toList();

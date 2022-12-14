@@ -35,14 +35,24 @@ public class PostResource {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PostResponse> findById(@PathVariable Long id){
+    public ResponseEntity<PostResponse> findById(@PathVariable Long id) {
         Post post = this.postService.findById(id);
         PostResponse postResponse = this.postResponseMapper.mapToPostResponse(post);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
+    @GetMapping("find-by-user-username/{userUsername}")
+    public ResponseEntity<List<PostResponse>> findByUserUsername(@PathVariable String userUsername) {
+        List<Post> posts = this.postService.findByUserUsername(userUsername);
+        List<PostResponse> postResponses = posts.stream()
+                .map(this.postResponseMapper::mapToPostResponse)
+                .toList();
+
+        return new ResponseEntity<>(postResponses, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<PostResponse> save(@Valid @RequestBody PostRequest postRequest){
+    public ResponseEntity<PostResponse> save(@Valid @RequestBody PostRequest postRequest) {
         Post post = this.postRequestMapper.mapToPost(postRequest);
         post = this.postService.save(post);
         PostResponse postResponse = this.postResponseMapper.mapToPostResponse(post);
