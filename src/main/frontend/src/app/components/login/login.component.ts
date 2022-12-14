@@ -46,8 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy{
         }))
         .subscribe({
           next: (response) => {
-            this.localStorageService.store("authorization", response.headers.get("authorization"));
-            this.localStorageService.store("refresh-token", response.headers.get("refresh-token"));
+
             this.isError = false;
             this.router.navigateByUrl('/')
             this.toastr.success('Login successful! Redirecting you to main page.')
