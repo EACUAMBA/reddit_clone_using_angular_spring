@@ -13,25 +13,28 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const jwt = this.authenticationService.getJWT();
-    if(jwt){
+    if (jwt) {
       request = this.addTokenInRequest(request, jwt);
     }
 
-    if(request.url.indexOf('/refresh-token') || request.url.indexOf('/login')){
+    if (request.url.indexOf('/refresh-token') || request.url.indexOf('/login')) {
       next.handle(request);
     }
 
-    return next.handle(request).pipe(catchError(err => {
-      if(err instanceof HttpErrorResponse && err.status === 403){
+    if (jwt) {
+      return next.handle(request).pipe(catchError(err => {
+        if (err instanceof HttpErrorResponse && err.status === 403) {
           return this.handleAuthError(
             request, next
           )
-      }
-      else{
-        return throwError(err)
-      }
+        } else {
+          return throwError(err)
+        }
 
-    }))
+      }));
+    }
+
+    return next.handle(request);
   }
 
   addTokenInRequest = (request: HttpRequest<any>, jwt: string): HttpRequest<unknown> => {
