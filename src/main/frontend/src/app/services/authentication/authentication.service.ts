@@ -5,6 +5,7 @@ import {SignupRequestPayload} from "../../models/signup-request.payload";
 import {Observable} from "rxjs";
 import {LoginRequestPayload} from "../../models/login/login-request.payload";
 import {LocalStorageService} from "ngx-webstorage";
+import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +34,22 @@ export class AuthenticationService {
     return this.localStorageService.retrieve('authorization')
   }
 
-  refreshJWT() : Observable<any>{
+  refreshJWT(): Observable<any> {
     return this.httpClient.post(environment.apiBaseUrl.concat('auth/refresh-token'), {refreshToken: this.localStorageService.retrieve('refresh-token')})
   }
 
   updateJWT(token: string) {
     this.localStorageService.store('authorization', '');
     this.localStorageService.store('authorization', token);
+  }
+
+  isLoggedIn(): boolean {
+    return this.getJWT() != null;
+  }
+
+  getUsername(): string {
+    jwtDecode(this.getJWT())
+    let uncodedJwt: any = jwtDecode(this.getJWT());
+    return uncodedJwt.sub as string;
   }
 }
