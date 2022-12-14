@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableAsync
 @EnableScheduling
+//@Import(SwaggerConfiguration.class)
 public class RedditCloneUsingAngularSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RedditCloneUsingAngularSpringApplication.class, args);
