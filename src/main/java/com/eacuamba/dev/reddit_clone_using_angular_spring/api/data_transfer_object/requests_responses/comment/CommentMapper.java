@@ -2,6 +2,7 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_obj
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Comment;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.PostService;
+import com.github.kevinsawicki.timeago.TimeAgo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class CommentMapper {
     private final ModelMapper modelMapper;
     private final PostService postService;
+    private final TimeAgo timeAgo;
 
     public Comment mapTo(CommentRequest commentRequest){
         Comment comment = this.modelMapper.map(commentRequest, Comment.class);
@@ -23,6 +25,7 @@ public class CommentMapper {
         commentResponse.setPostId(comment.getPost().getId());
         commentResponse.setUserId(comment.getUser().getId());
         commentResponse.setUserUsername(comment.getUser().getUsername());
+        commentResponse.setTimeAgo(this.timeAgo.timeAgo(comment.getCreatedAt().toEpochMilli()));
         return commentResponse;
     }
 }

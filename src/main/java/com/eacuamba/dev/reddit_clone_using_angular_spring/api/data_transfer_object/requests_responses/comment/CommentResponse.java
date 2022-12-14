@@ -15,4 +15,5 @@ public class CommentResponse {
     private Long postId;
     private Long userId;
     private String userUsername;
+    private String timeAgo;
 }
