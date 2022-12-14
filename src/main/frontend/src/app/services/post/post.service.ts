@@ -20,4 +20,15 @@ export class PostService {
   save(postRequest: PostRequest) {
     return this.httpClient.post(environment.apiBaseUrl.concat('posts'), postRequest);
   }
+
+  getPostById(postId: bigint) {
+    return this.httpClient.get<PostResponsePayload>(
+      environment.apiBaseUrl
+        .concat('posts/')
+        .concat(postId.toString()));
+  }
+
+  getAllPostByUser(username: string | undefined) {
+    return this.httpClient.get<Array<PostResponsePayload>>(environment.apiBaseUrl.concat('posts/find-by-user-username/').concat(username as string));
+  }
 }
