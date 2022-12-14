@@ -16,13 +16,14 @@
       </a>
     </div>
     <div class="d-flex flex-grow-1 justify-content-end">
-      <div *ngIf="isLoggedIn"  class="">
-        <div  aria-labelledby="dropdownBasic1">
-          <button (click)="goToUserProfile()" >Profile</button>
-          <button (click)="logout()" >Logout</button>
+      <div *ngIf="isLoggedIn" class="" ngbDropdown>
+        <div aria-labelledby="dropdownBasic1" ngbDropdownMenu>
+          <button (click)="goToUserProfile()" ngbDropdownItem>Profile</button>
+          <button (click)="logout()" ngbDropdownItem>Logout</button>
         </div>
-        <button class="userdetails" id="dropdownBasic1" >
-          <img class="account-icon" src="https://www.redditstatic.com/avatars/avatar_default_08_D4E815.png" alt="Just an image">
+        <button class="userdetails" id="dropdownBasic1" ngbDropdownToggle>
+          <img class="account-icon" src="https://www.redditstatic.com/avatars/avatar_default_08_D4E815.png"
+               alt="Just an image">
           {{username}}
         </button>
       </div>
