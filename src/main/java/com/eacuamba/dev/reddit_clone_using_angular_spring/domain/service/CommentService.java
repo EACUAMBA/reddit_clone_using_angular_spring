@@ -28,6 +28,8 @@ public class CommentService {
 
     @RollbackTransactional
     public Comment save(Comment comment) {
+        User postUserOwner = comment.getPost().getUser();
+
         Optional<User> optionalUser = this.securityHelper.getAutheticatedUser();
         User user = optionalUser.orElseThrow(this.exceptionBuilder::buildNoAuthenticatedUser);
         comment.setUser(user);
@@ -35,10 +37,10 @@ public class CommentService {
         comment = this.commentRepository.save(comment);
         String mailBody = this.mailContentBuilder
                 .build(
-                        comment.getPost().getUser().getUsername() + " posted a comment on your post. " + comment.getPost().getUrl(),
+                        comment.getUser().getUsername() + " posted a comment on your post. " + comment.getPost().getName(),
                         "New Comment! Go chek it out!"
                 );
-        this.mailService.sendCommentNotificationEmail(mailBody, user);
+        this.mailService.sendCommentNotificationEmail(mailBody, postUserOwner);
         return comment;
     }
 
@@ -47,8 +49,8 @@ public class CommentService {
         return this.commentRepository.findAllByPost(post);
     }
 
-    public List<Comment> findAllByUserId(Long userId) {
-        User user = this.userService.findById(userId);
+    public List<Comment> findAllByUserUsername(String userUsername) {
+        User user = this.userService.findByUsername(userUsername);
         return this.commentRepository.findAllByUser(user);
     }
 }
