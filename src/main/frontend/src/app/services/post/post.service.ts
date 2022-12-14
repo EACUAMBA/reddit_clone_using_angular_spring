@@ -31,4 +31,8 @@ export class PostService {
   getAllPostByUser(username: string | undefined) {
     return this.httpClient.get<Array<PostResponsePayload>>(environment.apiBaseUrl.concat('posts/find-by-user-username/').concat(username as string));
   }
+
+  getById(id: bigint): Observable<PostResponsePayload> {
+    return this.httpClient.get<PostResponsePayload>(environment.apiBaseUrl.concat('posts').concat('/').concat(id.toString()))
+  }
 }

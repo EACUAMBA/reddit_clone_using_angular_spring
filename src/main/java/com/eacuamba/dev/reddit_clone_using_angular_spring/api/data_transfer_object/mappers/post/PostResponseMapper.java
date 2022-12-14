@@ -4,6 +4,8 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_obje
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Subreddit;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.vote.Vote;
+import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.vote.VoteType;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.CommentRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.VoteRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.user.UserService;
@@ -14,6 +16,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -34,25 +37,45 @@ public abstract class PostResponseMapper {
     @Mapping(target = "userId", expression = "java(getUserId(post.getUser()))")
     @Mapping(target = "commentsCount", expression = "java(countComments(post))")
     @Mapping(target = "duration", expression = "java(duration(post))")
+    @Mapping(target = "upVote", expression = "java(setUpVote(post))")
+    @Mapping(target = "downVote", expression = "java(setDownVote(post))")
     public abstract PostResponse mapToPostResponse(Post post);
 
-    public String getUserUsername(User user){
-        if(isNull(user))
+    public Boolean setDownVote(Post post) {
+        Optional<Vote> optionalVote = this.voteRepository.findTopByPostAndUserOrderByIdDesc(post, post.getUser());
+        if (optionalVote.isPresent() && optionalVote.get().getVoteType().equals(VoteType.DOWN)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    public Boolean setUpVote(Post post) {
+        Optional<Vote> optionalVote = this.voteRepository.findTopByPostAndUserOrderByIdDesc(post, post.getUser());
+        if (optionalVote.isPresent() && optionalVote.get().getVoteType().equals(VoteType.UP)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    public String getUserUsername(User user) {
+        if (isNull(user))
             return null;
         return user.getUsername();
     }
-    public  Long getUserId(User user){
-        if(isNull(user))
+
+    public Long getUserId(User user) {
+        if (isNull(user))
             return null;
         return user.getId();
     }
 
-    public String getSubredditName(Subreddit subreddit){
-        if(isNull(subreddit))
+    public String getSubredditName(Subreddit subreddit) {
+        if (isNull(subreddit))
             return null;
         return subreddit.getName();
     }
-    public  Long getSubredditId(Subreddit subreddit){
+
+    public Long getSubredditId(Subreddit subreddit) {
         if(isNull(subreddit))
             return null;
         return subreddit.getId();

@@ -38,14 +38,14 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "refresh-token")
-    public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest){
+    public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         String tokenValue = this.authenticationService.refreshToken(refreshTokenRequest.getRefreshToken());
         RefreshTokenResponse refreshTokenResponse = RefreshTokenResponse.builder().token(tokenValue).build();
         return new ResponseEntity<>(refreshTokenResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "refresh-token")
-    public ResponseEntity<Void> deleteRefreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest){
+    @PostMapping(path = "logout")
+    public ResponseEntity<Void> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         this.authenticationService.invalidateRefreshToken(refreshTokenRequest.getRefreshToken());
         return new ResponseEntity<>(HttpStatus.OK);
     }

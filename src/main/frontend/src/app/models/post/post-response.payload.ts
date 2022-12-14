@@ -10,5 +10,7 @@ export interface PostResponsePayload{
 
   voteCount: bigint,
   commentsCount: bigint,
-  duration: string
+  duration: string,
+  downVote: boolean,
+  upVote: boolean
 }

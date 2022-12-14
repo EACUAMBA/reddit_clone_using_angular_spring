@@ -22,5 +22,6 @@ public class PostResponse {
     private Integer voteCount;
     private Integer commentsCount;
     private String duration;
-
+    private Boolean upVote;
+    private Boolean downVote;
 }
