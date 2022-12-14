@@ -5,6 +5,7 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.configuration.security
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,6 +43,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
 
                 .requestMatchers("/api/auth/**")
+                .permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/api/subreddits", "/api/posts", "/api/posts/**")
                 .permitAll()
 
                 .requestMatchers("/api/**")
