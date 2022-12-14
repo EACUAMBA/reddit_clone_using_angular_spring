@@ -3,8 +3,9 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.user_per
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Getter
 @Setter

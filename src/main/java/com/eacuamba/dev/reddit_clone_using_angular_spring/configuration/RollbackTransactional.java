@@ -1,6 +1,5 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.configuration;
 
-import org.springframework.aot.hint.annotation.Reflective;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.annotation.*;
@@ -10,6 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Reflective
 public @interface RollbackTransactional {
 }

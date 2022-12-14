@@ -1,9 +1,9 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.module;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permission.Permission;
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

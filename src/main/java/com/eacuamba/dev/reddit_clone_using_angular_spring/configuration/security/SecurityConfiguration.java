@@ -42,16 +42,16 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests()
 
-                .requestMatchers("/api/auth/**")
+                .antMatchers("/api/auth/**")
                 .permitAll()
 
-                .requestMatchers(HttpMethod.GET, "/api/subreddits", "/api/posts", "/api/posts/**")
+                .antMatchers(HttpMethod.GET, "/api/subreddits", "/api/posts", "/api/posts/**")
                 .permitAll()
 
-                .requestMatchers("/api/**")
+                .antMatchers("/api/**")
                 .authenticated()
 
-                .requestMatchers("/**")
+                .antMatchers("/**")
                 .permitAll();
 
 

@@ -1,12 +1,12 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.annotation.Nullable;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
 

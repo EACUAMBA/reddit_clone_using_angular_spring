@@ -2,11 +2,11 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.vote;
 
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter

@@ -1,8 +1,11 @@
 package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.Instant;
 
 @Data

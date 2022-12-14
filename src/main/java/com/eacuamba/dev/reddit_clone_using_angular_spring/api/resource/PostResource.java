@@ -7,12 +7,12 @@ import com.eacuamba.dev.reddit_clone_using_angular_spring.api.data_transfer_obje
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.Post;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.repository.PostRepository;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.service.PostService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor

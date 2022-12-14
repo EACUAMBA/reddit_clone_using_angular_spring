@@ -3,9 +3,9 @@ package com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.permissi
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.UserGroup;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.module.Module;
 import com.eacuamba.dev.reddit_clone_using_angular_spring.domain.model.user_permission_user_group.UserUserGroupPermission;
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
