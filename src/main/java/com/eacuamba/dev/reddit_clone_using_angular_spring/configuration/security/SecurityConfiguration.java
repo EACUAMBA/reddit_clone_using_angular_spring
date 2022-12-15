@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                 .addFilter(this.jwtUsernameAndPasswordAuthenticationFilter)
                 .addFilterAfter(this.jwtTokenValidationFilter, JwtUsernameAndPasswordAuthenticationFilter.class)
 
-                .authorizeHttpRequests()
+                .authorizeRequests()
 
                 .antMatchers("/api/auth/**")
                 .permitAll()
